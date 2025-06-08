@@ -4,5 +4,5 @@ namespace kolokwium.Properties.Services;
 
 public interface IGetPurchaseCustomer
 {
-     Task<ICollection<CustomerPurchaseDto>>GetCustomerPurchase(int customerId);
+     Task<CustomerPurchasesDto?> GetPurchasesByCustomerIdAsync(int customerId);
 }

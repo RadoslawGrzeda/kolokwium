@@ -43,6 +43,22 @@ namespace kolokwium.Migrations
                     b.HasKey("ConcertId");
 
                     b.ToTable("concerts");
+
+                    b.HasData(
+                        new
+                        {
+                            ConcertId = 1,
+                            AvailableTicket = 0,
+                            Date = new DateTime(2025, 6, 1, 10, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "Jazz Night"
+                        },
+                        new
+                        {
+                            ConcertId = 2,
+                            AvailableTicket = 0,
+                            Date = new DateTime(2025, 6, 1, 10, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "Rock Festival"
+                        });
                 });
 
             modelBuilder.Entity("kolokwium.Properties.Models.Customer", b =>
@@ -67,6 +83,22 @@ namespace kolokwium.Migrations
                     b.HasKey("CustomerId");
 
                     b.ToTable("customers");
+
+                    b.HasData(
+                        new
+                        {
+                            CustomerId = 1,
+                            FirstName = "Anna",
+                            LastName = "Kowalska",
+                            PhoneNumber = "123456789"
+                        },
+                        new
+                        {
+                            CustomerId = 2,
+                            FirstName = "Jan",
+                            LastName = "Nowak",
+                            PhoneNumber = "987654321"
+                        });
                 });
 
             modelBuilder.Entity("kolokwium.Properties.Models.PurchasedTicket", b =>
@@ -85,6 +117,26 @@ namespace kolokwium.Migrations
                     b.HasIndex("CustomerId");
 
                     b.ToTable("Purchased_Ticket");
+
+                    b.HasData(
+                        new
+                        {
+                            TicketConcertId = 1,
+                            CustomerId = 1,
+                            PurchaseDate = new DateTime(2025, 6, 1, 10, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            TicketConcertId = 2,
+                            CustomerId = 1,
+                            PurchaseDate = new DateTime(2025, 6, 1, 10, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            TicketConcertId = 3,
+                            CustomerId = 2,
+                            PurchaseDate = new DateTime(2025, 6, 1, 10, 0, 0, 0, DateTimeKind.Utc)
+                        });
                 });
 
             modelBuilder.Entity("kolokwium.Properties.Models.Ticket", b =>
@@ -105,6 +157,26 @@ namespace kolokwium.Migrations
                     b.HasKey("TicketId");
 
                     b.ToTable("tickets");
+
+                    b.HasData(
+                        new
+                        {
+                            TicketId = 1,
+                            SeatNumber = 101,
+                            SerialNumber = "TK1"
+                        },
+                        new
+                        {
+                            TicketId = 2,
+                            SeatNumber = 102,
+                            SerialNumber = "TK1"
+                        },
+                        new
+                        {
+                            TicketId = 3,
+                            SeatNumber = 201,
+                            SerialNumber = "TK2"
+                        });
                 });
 
             modelBuilder.Entity("kolokwium.Properties.Models.TicketConcert", b =>
@@ -131,6 +203,29 @@ namespace kolokwium.Migrations
                     b.HasIndex("TicketId");
 
                     b.ToTable("Ticket_Concert");
+
+                    b.HasData(
+                        new
+                        {
+                            TicketConcertId = 1,
+                            ConcertId = 1,
+                            Price = 45,
+                            TicketId = 1
+                        },
+                        new
+                        {
+                            TicketConcertId = 2,
+                            ConcertId = 1,
+                            Price = 45,
+                            TicketId = 2
+                        },
+                        new
+                        {
+                            TicketConcertId = 3,
+                            ConcertId = 2,
+                            Price = 60,
+                            TicketId = 3
+                        });
                 });
 
             modelBuilder.Entity("kolokwium.Properties.Models.PurchasedTicket", b =>

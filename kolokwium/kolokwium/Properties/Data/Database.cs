@@ -23,45 +23,39 @@ public class Database : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Customer>().HasData(
+            new Customer { CustomerId = 1, FirstName = "Anna", LastName = "Kowalska", PhoneNumber = "12349" },
+            new Customer { CustomerId = 2, FirstName = "Jan", LastName = "Nowak", PhoneNumber = "9871" }
+        );
+
+        modelBuilder.Entity<Concert>().HasData(
+            new Concert { ConcertId = 1, Name = "Jaz", Date =  DateTime.SpecifyKind(new DateTime(2025, 6, 1, 10, 0, 0), DateTimeKind.Utc)},
+            new Concert { ConcertId = 2, Name = "Rock",  Date=DateTime.SpecifyKind(new DateTime(2025, 6, 1, 10, 0, 0), DateTimeKind.Utc)}
+        );
+
+        modelBuilder.Entity<Ticket>().HasData(
+            new Ticket { TicketId = 1, SerialNumber = "TK1", SeatNumber = 101 },
+            new Ticket { TicketId = 2, SerialNumber = "TK1", SeatNumber = 102 },
+            new Ticket { TicketId = 3, SerialNumber = "TK2", SeatNumber = 201 }
+        );
+
+        modelBuilder.Entity<TicketConcert>().HasData(
+            new TicketConcert { TicketConcertId = 1, TicketId = 1, ConcertId = 1, Price = 45 },
+            new TicketConcert { TicketConcertId = 2, TicketId = 2, ConcertId = 1, Price = 45 },
+            new TicketConcert { TicketConcertId = 3, TicketId = 3, ConcertId = 2, Price = 60 }
+        );
+
+        modelBuilder.Entity<PurchasedTicket>().HasData(
+            new PurchasedTicket { TicketConcertId = 1, CustomerId = 1, PurchaseDate = DateTime.SpecifyKind(new DateTime(2025, 6, 1, 10, 0, 0), DateTimeKind.Utc)
+            },
+            new PurchasedTicket { TicketConcertId = 2, CustomerId = 1,  PurchaseDate = DateTime.SpecifyKind(new DateTime(2025, 6, 1, 10, 0, 0), DateTimeKind.Utc)
+            },
+            new PurchasedTicket { TicketConcertId = 3, CustomerId = 2, PurchaseDate = DateTime.SpecifyKind(new DateTime(2025, 6, 1, 10, 0, 0), DateTimeKind.Utc)
+            }
+        );
+
+        
+        
 
     }
 }
-// modelBuilder.Entity<Product_Order>(a =>
-        // {
-        //     a.HasKey(x => new { x.ProductId, x.OrderId });
-        //
-        //     a.HasOne(po => po.Product)
-        //         .WithMany(p => p.ProductOrders)
-        //         .HasForeignKey(po => po.ProductId);
-        //
-        //     a.HasOne(po => po.Order)
-        //         .WithMany(p => p.ProductOrders)
-        //         .HasForeignKey(po => po.OrderId);
-        // });
-        //
-        //
-        // modelBuilder.Entity<Product>(a =>
-        //     a.Property(x => x.Price).HasColumnType("numeric(10,2)")
-        // );
- 
-/*modelBuilder.Entity<Client>().HasData(new List<Client>()
-{
-    new Client() { ID = 1, FirstName = "John", LastName = "Doe" },
-    new Client() { ID = 2, FirstName = "Jane", LastName = "Doe" },
-    new Client() { ID = 3, FirstName = "Julie", LastName = "Doe" },
-});
-
-modelBuilder.Entity<Status>().HasData(new List<Status>()
-{
-    new Status() { ID = 1, Name = "Created" },
-    new Status() { ID = 2, Name = "Ongoing" },
-    new Status() { ID = 3, Name = "Completed" },
-});
-
-modelBuilder.Entity<Product>().HasData(new List<Product>()
-{
-    new Product() { ID = 1, Name = "Apple", Price = 3.45 },
-    new Product() { ID = 2, Name = "Bananas", Price = 5.55 },
-    new Product() { ID = 3, Name = "Orange", Price = 12.37 },
-});
-}*/

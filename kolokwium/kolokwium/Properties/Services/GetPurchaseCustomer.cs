@@ -1,11 +1,12 @@
 using kolokwium.Properties.Data;
 using kolokwium.Properties.DTOs;
+using kolokwium.Properties.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
 namespace kolokwium.Properties.Services;
 
-public abstract class GetPurchaseCustomer:IGetPurchaseCustomer
+public abstract class GetPurchaseCustomer : IGetPurchaseCustomer
 {
     private readonly Database _context;
 
@@ -13,29 +14,41 @@ public abstract class GetPurchaseCustomer:IGetPurchaseCustomer
     {
         _context = context;
     }
-    
 
-public  async Task<ICollection<CustomerPurchaseDto>>GetCustomerPurchase(int customerId)
-{
-    var customer = await _context.customers.Select(e => e.CustomerId == customerId).FirstOrDefaultAsync();
-    if (customer == null)
-    {
-       throw new KeyNotFoundException();
-    }
-    var dane = await _context.customers.Select(e=> new CustomerPurchaseDto
-    {
-        CustomerId = customerId,
-        LastName = e.LastName,
-        FirstName = e.FirstName,
-        PhoneNumber = e.PhoneNumber,
-        PurchasedTicket = new CustomerPurchaseDto.PurchasedTicketDto
+        public async Task<CustomerPurchasesDto?> GetPurchasesByCustomerIdAsync(int customerId)
         {
-            
-        }
-    }
+            var customer = await _context.customers
+                .Where(c => c.CustomerId == customerId)
+                .Select(c => new CustomerPurchasesDto
+                {
+                    FirstName = c.FirstName,
+                    LastName = c.LastName,
+                    PhoneNumber = c.PhoneNumber,
+                    Purchases = c.PurchasedTickets.Select(pt => new PurchaseDto
+                    {
+                        Date = pt.PurchaseDate,
+                        Price = pt.TicketConcert.Price,
+                        Ticket = new TicketDto
+                        {
+                            Serial = pt.TicketConcert.Ticket.SerialNumber,
+                            SeatNumber = pt.TicketConcert.Ticket.SeatNumber
+                        },
+                        Concert = new ConcertDto
+                        {
+                            Name = pt.TicketConcert.Concert.Name,
+                            Date = pt.TicketConcert.Concert.Date
+                        }
+                    }).ToList()
+                })
+                .FirstOrDefaultAsync();
 
+            return customer;
+        }
+
+        public Task<CustomerPurchasesDto?> GetPurchasesByCustomerIdAsync()
+        {
+            throw new NotImplementedException();
+        }
 }
-{
-    
-}
+
     
