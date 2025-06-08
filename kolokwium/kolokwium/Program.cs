@@ -1,4 +1,5 @@
 using kolokwium.Properties.Data;
+using kolokwium.Properties.Services;
 using Microsoft.EntityFrameworkCore;
 using WebApplication = Microsoft.AspNetCore.Builder.WebApplication;
 
@@ -16,7 +17,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<Database>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
  
-// builder.Services.AddScoped<IOrderService,OrderService>();
+builder.Services.AddScoped<ICustomerService,CustomerService>();
+builder.Services.AddScoped<IGetPurchaseCustomer,GetPurchaseCustomer>();
 var app = builder.Build();
  
 if (app.Environment.IsDevelopment())
